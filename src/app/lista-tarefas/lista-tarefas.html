@@ -1,0 +1,7 @@
+<input #input type="text" placeholder="Digite uma nova tarefa...">
+<button (click)="adicionarTarefa(input.value)">Adicionar</button>
+<ul>
+  @for (tarefa of tarefas; track tarefa) {
+  <li>{{ tarefa }}</li>
+  }
+</ul>
