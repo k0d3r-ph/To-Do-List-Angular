@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PopUp } from '../pop-up/pop-up';
 
 @Component({
   selector: 'app-lista-tarefas',
-  imports: [MatDialogModule, PopUp],
+  imports: [PopUp],
   templateUrl: './lista-tarefas.html',
   styleUrl: './lista-tarefas.css',
 })
@@ -17,6 +17,8 @@ export class ListaTarefas {
       this.tarefas = lista;
     }
   }
+
+  constructor(private dialog: MatDialog) {}
 
   mostrarPopup: boolean = false;
 
@@ -34,6 +36,7 @@ export class ListaTarefas {
 
     if (this.tarefas.some((tarefa) => tarefa.texto === novaTarefa)) {
       this.mostrarPopup = true;
+      this.dialog.open(PopUp);
       return;
     }
 
@@ -56,5 +59,9 @@ export class ListaTarefas {
     let tarefa = this.tarefas[indice];
     tarefa.concluida = !tarefa.concluida;
     this.salvarTarefas();
+  }
+
+  fecharPopup() {
+    this.dialog.closeAll();
   }
 }

@@ -12,14 +12,4 @@ import { PopUp } from './pop-up/pop-up';
 })
 export class App {
   protected readonly title = signal('lista-de-tarefas');
-
-  constructor(private dialogRef: MatDialog) {}
-
-  openDialog() {
-    this.dialogRef.open(PopUp, {
-      data: {
-        name: 'Samuel',
-      },
-    });
-  }
 }
