@@ -1,7 +1,13 @@
 <input #input type="text" placeholder="Digite uma nova tarefa...">
 <button (click)="adicionarTarefa(input.value)">Adicionar</button>
 <ul>
-  @for (tarefa of tarefas; track tarefa) {
-  <li>{{ tarefa }}</li>
+  @for (tarefa of tarefas; track tarefa; let i = $index) {
+  <li><span [class.concluida]="tarefa.concluida" (click)="concluirTarefa(i)">{{ tarefa.texto }}</span>
+    <button (click)="deletarTarefa(i)">Deletar</button>
+  </li>
   }
 </ul>
+
+@if (mostrarPopup) {
+<app-pop-up></app-pop-up>
+}
