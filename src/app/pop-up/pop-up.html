@@ -1,3 +1,11 @@
-<h2>Esta tarefa já foi adicionada!</h2>
+<h2 mat-dialog-title>Atenção!</h2>
 
-<button class="btn btn-primary" (click)="fecharPopup()">Fechar</button>
+<mat-dialog-content>
+  <p>
+    Esta tarefa já foi adicionada à sua lista.
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="fecharPopup()">Fechar</button>
+</mat-dialog-actions>
