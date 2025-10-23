@@ -1,9 +1,19 @@
 <body>
-  <mat-dialog-content>
-    <input [(ngModel)]="textoTarefaSignal" type=text placeholder="Qual seria a tarefa?">
-    <textarea [(ngModel)]="descricaoTarefaSignal" placeholder="Descrição da tarefa..."></textarea>
-    <input [(ngModel)]="dataTarefaSignal" type="date" placeholder="Em que data será feita essa tarefa?">
-    <input [(ngModel)]="horaTarefaSignal" type="time" placeholder="Que horas será feita essa tarefa?">
-    <button (click)="salvar()">Salvar tarefa</button>
+  <mat-dialog-content (keydown.enter)="salvar()">
+    <input type="text" [ngModel]="textoTarefaSignal()" (ngModelChange)="textoTarefaSignal.set($event)"
+      placeholder="Qual seria a tarefa?" />
+
+    <textarea [ngModel]="descricaoTarefaSignal()" (ngModelChange)="descricaoTarefaSignal.set($event)"
+      placeholder="Descrição da tarefa..."></textarea>
+
+    <input type="date" [ngModel]="dataTarefaSignal()" (ngModelChange)="dataTarefaSignal.set($event)"
+      placeholder="Em que data será feita essa tarefa?" />
+
+    <input type="time" [ngModel]="horaTarefaSignal()" (ngModelChange)="horaTarefaSignal.set($event)"
+      placeholder="Que horas será feita essa tarefa?" />
   </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-flat-button (click)="salvar()">Salvar</button>
+  </mat-dialog-actions>
 </body>

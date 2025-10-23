@@ -1,7 +1,8 @@
 <div class="adicionar-tarefa">
-  <input (keyup.enter)="abrirPopupAdicionar()" #input type="text" placeholder="Digite uma nova tarefa...">
-  <button (click)="abrirPopupAdicionar()">Adicionar</button>
+  <input #input type="text" placeholder="Digite uma nova tarefa..." />
+  <button (click)="abrirPopupAdicionar(input.value)">Adicionar</button>
 </div>
+
 <ul>
   @for (tarefa of tarefas; track tarefa; let i = $index) {
   <li>

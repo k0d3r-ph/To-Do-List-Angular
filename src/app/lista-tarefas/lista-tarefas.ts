@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopUp } from '../pop-up/pop-up';
 import { AdicionarTarefaPopup } from '../adicionar-tarefa-popup/adicionar-tarefa-popup';
@@ -31,6 +31,20 @@ export class ListaTarefas {
 
   constructor(private dialog: MatDialog) {}
 
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterPress(event: Event) {
+    const keyboardEvent = event as KeyboardEvent;
+
+    if (!keyboardEvent || keyboardEvent.key !== 'Enter') return;
+
+    if (document.activeElement?.closest('mat-dialog-container')) return;
+
+    const valor = this.inputElement?.nativeElement.value.trim();
+    if (valor && valor.length > 0) {
+      this.abrirPopupAdicionar(valor);
+    }
+  }
+
   mostrarPopup: boolean = false;
 
   tarefas: {
@@ -50,11 +64,13 @@ export class ListaTarefas {
     horaString: string | null;
     dataHora?: Date | null;
   }) {
-    if (novaTarefa.texto.trim().length === 0) {
+    if (!novaTarefa.texto || novaTarefa.texto.trim().length === 0) {
       return;
     }
 
-    if (this.tarefas.some((tarefa) => tarefa.texto === novaTarefa.texto)) {
+    if (
+      this.tarefas.some((tarefa) => tarefa.texto.toLowerCase() === novaTarefa.texto.toLowerCase())
+    ) {
       this.mostrarPopup = true;
       this.dialog.open(PopUp);
       return;
@@ -77,18 +93,20 @@ export class ListaTarefas {
     this.salvarTarefas();
   }
 
-  abrirPopupAdicionar() {
-    const inputTitulo = this.inputElement;
+  abrirPopupAdicionar(valorInput: string) {
+    const textoDigitado = valorInput.trim();
+    if (textoDigitado.length === 0) return;
+
     const dialogRef = this.dialog.open(AdicionarTarefaPopup, {
-      data: { textoInicial: inputTitulo.nativeElement.value },
+      data: { textoInicial: textoDigitado },
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {
-      if (resultado !== null) {
+      if (resultado) {
         this.adicionarTarefa(resultado);
-
-        this.inputElement.nativeElement.value = '';
       }
+
+      this.inputElement.nativeElement.value = '';
     });
   }
 
